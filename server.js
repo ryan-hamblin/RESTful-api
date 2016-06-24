@@ -1,8 +1,8 @@
 var mongoose    = require('mongoose');
-var express 		= require('express');
-var app 				= express();
+var express 	= require('express');
+var app 		= express();
 var bodyParser  = require('body-parser');
-var Bear     		= require('./app/models/bear');
+var Bear     	= require('./app/models/bear');
 
 
 mongoose.connect('mongodb://localhost/27017');
