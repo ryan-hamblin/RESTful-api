@@ -3,11 +3,12 @@ var express 	= require('express');
 var app 		= express();
 var bodyParser  = require('body-parser');
 var Bear     	= require('./app/models/bear');
-
+var cors 		= require('cors');
 
 mongoose.connect('mongodb://localhost/27017');
 app.use(bodyParser.urlencoded( { extended: true } ));
 app.use(bodyParser.json());
+app.use(cors);
 
 var port = process.env.PORT || 3046;
 
@@ -17,6 +18,7 @@ var router = express.Router();
 
 router.use(function(req, res, next) {
 	console.log('Hit the Middleware!');
+	console.log("REQ.BODY: ", req.body);
 	next();
 });
 
@@ -24,6 +26,11 @@ router.use(function(req, res, next) {
 
 router.route('/bears')
 	.post(function(req, res) {
+		console.log("REQUEST COMING INTO POST: ", req.body)
+		if(!req.body.name) {
+			res.json({message: 'Empty Request Body!'});
+			return;
+		}
 		var bear = new Bear();
 		bear.name = req.body.name;
 		bear.save(function(err) {
